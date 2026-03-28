@@ -1,0 +1,14 @@
+[
+    {
+        "voter_hash": "79455c22e37759dfc983bd8445f76547e1ec15c179170cd1fa8c39fc3209e7af",
+        "timestamp": "2026-02-05T21:41:56.958952",
+        "booth": "Booth_1",
+        "vote_count": 1
+    },
+    {
+        "voter_hash": "c337c7bcab5d6bb3f9e52ffa99b0a23f30958054daded39d2236563b945fdbf2",
+        "timestamp": "2026-02-05T21:58:32.675689",
+        "booth": "Booth_3",
+        "vote_count": 1
+    }
+]

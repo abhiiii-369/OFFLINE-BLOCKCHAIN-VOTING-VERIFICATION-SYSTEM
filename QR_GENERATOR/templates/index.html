@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Election Authority – QR Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>Election Authority – QR Generator</h1>
+
+<form action="/add" method="post" onsubmit="return validateVoterId()">
+    <input type="text" id="voter_id" name="voter_id"
+           placeholder="Voter ID (AAA1234567)" required>
+    <input type="text" name="name" placeholder="Voter Name" required>
+    <button type="submit">Generate QR</button>
+</form>
+
+<br>
+
+<form action="/print_pdf" method="get">
+    <button type="submit">Print Voter List (PDF)</button>
+</form>
+
+<h2>Registered Voters</h2>
+
+<table>
+    <tr>
+        <th>Voter ID</th>
+        <th>Name</th>
+        <th>QR Code</th>
+        <th>Action</th>
+    </tr>
+
+    {% for v in voters %}
+    <tr>
+        <td>{{ v[0] }}</td>
+        <td>{{ v[1] }}</td>
+        <td>
+            <img src="{{ url_for('static', filename='qrs/' + v[2]) }}" width="100">
+        </td>
+        <td>
+            <form action="/delete/{{ v[0] }}" method="post"
+                  onsubmit="return confirmDelete('{{ v[0] }}')">
+                <button class="delete-btn">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<script>
+function validateVoterId() {
+    const input = document.getElementById("voter_id");
+    const voterId = input.value.trim();
+    const pattern = /^[A-Za-z]{3}[0-9]{7}$/;
+
+    input.classList.remove("error");
+
+    if (!pattern.test(voterId)) {
+        input.classList.add("error");
+        alert(
+            "❌ Invalid Voter ID\n\n" +
+            "Required format:\n" +
+            "• 3 alphabets + 7 digits\n\n" +
+            "Example: ABC1234567"
+        );
+        return false;
+    }
+    return true;
+}
+
+function confirmDelete(voterId) {
+    return confirm(
+        "⚠️ CONFIRM DELETE\n\n" +
+        "Voter ID: " + voterId + "\n\n" +
+        "This action cannot be undone."
+    );
+}
+</script>
+
+</body>
+</html>

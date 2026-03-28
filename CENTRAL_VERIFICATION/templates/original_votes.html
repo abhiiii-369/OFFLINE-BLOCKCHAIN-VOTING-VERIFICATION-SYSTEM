@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Original Votes – OBVV</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="center-block">
+    <h1>Original Votes – OBVV</h1>
+    <button onclick="window.location.href='/'">
+        Back to Verification
+    </button>
+</div>
+
+<h2>Original Votes Ledger</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Voter Hash</th>
+            <th>Booth</th>
+            <th>Vote Count</th>
+            <th>Timestamp</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for v in votes %}
+        <tr>
+            <td>{{ v.voter_hash }}</td>
+            <td>{{ v.booth }}</td>
+            <td>{{ v.vote_count }}</td>
+            <td>{{ v.timestamp }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

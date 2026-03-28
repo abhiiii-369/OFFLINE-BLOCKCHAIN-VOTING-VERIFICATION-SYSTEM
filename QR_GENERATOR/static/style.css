@@ -1,0 +1,95 @@
+body {
+    margin: 0;
+    padding: 30px;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    color: #1f2d3d;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("/static/E.png");
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: 120%;
+    background-attachment: fixed;
+    filter: blur(8px);
+    transform: scale(1.05);
+    z-index: -1;
+}
+
+h1 {
+    color:white;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #2f6f8f;
+    margin-top: 30px;
+}
+
+input {
+    padding: 9px 12px;
+    margin-right: 10px;
+    border: 1px solid #cfdce4;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+input.error {
+    border: 2px solid #c0392b;
+    background-color: #fdecea;
+}
+
+button {
+    padding: 9px 18px;
+    background-color: #2f6f8f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #245a74;
+}
+
+.delete-btn {
+    background-color: #c0392b;
+}
+
+.delete-btn:hover {
+    background-color: #e74c3c;
+}
+
+table {
+    width: 90%;
+    margin-top: 25px;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.94);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+th {
+    background-color: #2f6f8f;
+    color: white;
+    padding: 12px;
+    font-size: 15px;
+}
+
+td {
+    padding: 12px;
+    text-align: center;
+    border-top: 1px solid #d6e3ec;
+    font-size: 14px;
+}
+
+tr:nth-child(even) {
+    background-color: #f3f8fb;
+}

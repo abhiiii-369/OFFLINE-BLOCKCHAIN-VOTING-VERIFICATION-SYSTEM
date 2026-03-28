@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Central Verification – OBVV</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="center-block">
+    <h1>Central Verification – OBVV</h1>
+
+    <p>
+        Connected Booth Ledgers: {{ booth_count }}
+        ({{ booths | join(", ") }})
+    </p>
+
+    <div>
+        <button id="startBtn">Start Verification</button>
+        <button onclick="window.location.href='/original_votes'">
+            Original Votes
+        </button>
+
+        <input type="file" id="boothFile" accept=".db">
+        <button id="uploadBtn">Browse & Upload Booth Ledger</button>
+    </div>
+
+    <div id="stats"></div>
+</div>
+
+<h2>Duplicate Votes</h2>
+
+<table id="dupTable">
+    <thead>
+        <tr>
+            <th>Voter Hash</th>
+            <th>Booth</th>
+            <th>Vote Count (Booth)</th>
+            <th>Timestamp</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script>
+document.getElementById("uploadBtn").addEventListener("click", () => {
+    const fileInput = document.getElementById("boothFile");
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert("Please select a booth ledger (.db) file.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    fetch("/upload_booth", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === "success") {
+            alert("Booth ledger uploaded successfully.");
+            location.reload();
+        } else {
+            alert(data.message);
+        }
+    });
+});
+
+
+document.getElementById("startBtn").addEventListener("click", () => {
+    fetch("/start_verification")
+        .then(res => res.json())
+        .then(data => {
+
+            document.getElementById("stats").innerHTML =
+                "Total Votes: " + data.total_votes +
+                " | Valid Votes: " + data.valid_votes +
+                " | Duplicate Votes: " + data.duplicate_votes;
+
+            const tbody = document.querySelector("#dupTable tbody");
+            tbody.innerHTML = "";
+
+            data.duplicates.forEach(d => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${d.voter_hash}</td>
+                    <td>${d.booth}</td>
+                    <td>${d.vote_count}</td>
+                    <td>${d.timestamp}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        });
+});
+</script>
+
+</body>
+</html>
